@@ -1,3 +1,40 @@
+const TOTE_ITEMS = {
+  "213567": {
+    description: "ADTRAN SDX611 ONT 1GE C-Chip",
+    maxQty: 5
+  },
+
+  "214181": {
+    description: "ADTRAN SDX601QV, GPON 2.5G/1P",
+    maxQty: 5
+  },
+
+  "214152": {
+    description: "ONT, ADTRAN, 632 V Indoor XGS 10G/2.5",
+    maxQty: 12
+  },
+
+  "213484": {
+    description: "ADTRAN 854-6 DHCP",
+    maxQty: 10
+  },
+
+  "214595": {
+    description: "ADTRAN, SMARTOS, SDG 8612, Gtwy",
+    maxQty: 2
+  },
+
+  "214278": {
+    description: "ADTRAN, Plume, SDG 8612 Gateway",
+    maxQty: 10
+  },
+
+  "213264": {
+    description: "Adtran 841-T6 WIFI 6 MESH EXT",
+    maxQty: 6
+  }
+};
+
 const dropZone = document.getElementById("dropZone");
 const fileInput = document.getElementById("fileInput");
 const fileStatus = document.getElementById("fileStatus");
