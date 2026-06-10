@@ -77,6 +77,15 @@ dropZone.addEventListener("drop", (event) => {
   setLoadedFile(file);
 });
 
+const resultsDiv = document.getElementById("results");
+
 generateBtn.addEventListener("click", () => {
-  alert("Pick list generation coming next.");
+
+  resultsDiv.innerHTML = `
+    <div class="result-item">
+      <div class="result-part">Test Item</div>
+      <div class="result-qty">Need 5</div>
+    </div>
+  `;
+
 });
