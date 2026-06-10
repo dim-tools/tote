@@ -61,8 +61,21 @@ h1 {
 .file-status {
   margin-top: 20px;
   margin-bottom: 20px;
+}
 
-  font-size: 0.95rem;
+.status-label {
+  font-size: 0.9rem;
+  opacity: 0.8;
+  margin-bottom: 6px;
+}
+
+#fileStatus {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.file-loaded {
+  color: #4ade80;
 }
 
 button {
