@@ -116,6 +116,7 @@ generateBtn.addEventListener("click", () => {
     }
 
     let rows = "";
+    let totalPieces = 0;
 
     Object.entries(TOTE_ITEMS).forEach(([partNumber, item]) => {
 
@@ -124,13 +125,15 @@ generateBtn.addEventListener("click", () => {
 
       if (neededQty > 0) {
 
+       totalPieces += neededQty;
+        
        rows += `
-  <tr>
-    <td>${partNumber}</td>
-    <td>${item.description}</td>
-    <td>${neededQty}</td>
-  </tr>
-`;
+          <tr>
+          <td>${partNumber}</td>
+          <td>${item.description}</td>
+          <td>${neededQty}</td>
+        </tr>
+        `;
       }
 
     });
@@ -149,7 +152,7 @@ generateBtn.addEventListener("click", () => {
   return;
 }
 
-    resultsDiv.innerHTML = `
+   resultsDiv.innerHTML = `
   <table class="pick-table">
     <thead>
       <tr>
@@ -162,6 +165,10 @@ generateBtn.addEventListener("click", () => {
       ${rows}
     </tbody>
   </table>
+
+  <div class="pick-summary">
+    Total Pieces To Pick: ${totalPieces}
+  </div>
 `;
     printBtn.disabled = false;
 
