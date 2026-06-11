@@ -81,11 +81,77 @@ const resultsDiv = document.getElementById("results");
 
 generateBtn.addEventListener("click", () => {
 
-  resultsDiv.innerHTML = `
-    <div class="result-item">
-      <div class="result-part">Test Item</div>
-      <div class="result-qty">Need 5</div>
-    </div>
-  `;
+  if (!selectedFile) return;
+
+  const reader = new FileReader();
+
+  reader.onload = (e) => {
+
+    const csvText = e.target.result;
+
+    const lines = csvText.split(/\r?\n/);
+
+    const counts = {};
+
+    Object.keys(TOTE_ITEMS).forEach(part => {
+      counts[part] = 0;
+    });
+
+    for (let i = 1; i < lines.length; i++) {
+
+      const line = lines[i];
+
+      if (!line.trim()) continue;
+
+      const match = line.match(/(\d{6})-/);
+
+      if (!match) continue;
+
+      const partNumber = match[1];
+
+      if (counts.hasOwnProperty(partNumber)) {
+        counts[partNumber]++;
+      }
+    }
+
+    let html = "";
+
+    Object.entries(TOTE_ITEMS).forEach(([partNumber, item]) => {
+
+      const currentQty = counts[partNumber] || 0;
+      const neededQty = item.maxQty - currentQty;
+
+      if (neededQty > 0) {
+
+        html += `
+          <div class="result-item">
+            <div class="result-part">
+              ${partNumber} - ${item.description}
+            </div>
+            <div class="result-qty">
+              Need ${neededQty}
+            </div>
+          </div>
+        `;
+      }
+
+    });
+
+    if (!html) {
+
+      html = `
+        <div class="result-item">
+          <div class="result-part">
+            Tote is fully stocked
+          </div>
+        </div>
+      `;
+    }
+
+    resultsDiv.innerHTML = html;
+
+  };
+
+  reader.readAsText(selectedFile);
 
 });
