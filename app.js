@@ -135,18 +135,34 @@ generateBtn.addEventListener("click", () => {
 
     });
 
-    if (!rows) {
+   if (!rows) {
 
-      html = `
-        <div class="result-item">S
-          <div class="result-part">
-            Tote is fully stocked
-          </div>
-        </div>
-      `;
-    }
+  resultsDiv.innerHTML = `
+    <div class="result-item">
+      <div class="result-part">
+        Tote is fully stocked
+      </div>
+    </div>
+  `;
 
-    resultsDiv.innerHTML = html;
+  printBtn.disabled = true;
+  return;
+}
+
+    resultsDiv.innerHTML = `
+  <table class="pick-table">
+    <thead>
+      <tr>
+        <th>Part Number</th>
+        <th>Description</th>
+        <th>Qty</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${rows}
+    </tbody>
+  </table>
+`;
     printBtn.disabled = false;
 
   };
