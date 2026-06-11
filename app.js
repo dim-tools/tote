@@ -141,7 +141,7 @@ generateBtn.addEventListener("click", () => {
     if (!html) {
 
       html = `
-        <div class="result-item">
+        <div class="result-item">S
           <div class="result-part">
             Tote is fully stocked
           </div>
@@ -156,4 +156,8 @@ generateBtn.addEventListener("click", () => {
 
   reader.readAsText(selectedFile);
 
+});
+
+printBtn.addEventListener("click", () => {
+  window.print();
 });
