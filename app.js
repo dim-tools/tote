@@ -31,7 +31,7 @@ const TOTE_ITEMS = {
 
   "213264": {
     description: "Adtran 841-T6 WIFI 6 MESH EXT",
-    maxQty: 6
+    maxQty: 11
   }
 };
 
