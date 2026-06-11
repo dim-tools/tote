@@ -115,7 +115,7 @@ generateBtn.addEventListener("click", () => {
       }
     }
 
-    let html = "";
+    let rows = "";
 
     Object.entries(TOTE_ITEMS).forEach(([partNumber, item]) => {
 
@@ -124,21 +124,18 @@ generateBtn.addEventListener("click", () => {
 
       if (neededQty > 0) {
 
-        html += `
-          <div class="result-item">
-            <div class="result-part">
-              ${partNumber} - ${item.description}
-            </div>
-            <div class="result-qty">
-              Need ${neededQty}
-            </div>
-          </div>
-        `;
+       rows += `
+  <tr>
+    <td>${partNumber}</td>
+    <td>${item.description}</td>
+    <td>${neededQty}</td>
+  </tr>
+`;
       }
 
     });
 
-    if (!html) {
+    if (!rows) {
 
       html = `
         <div class="result-item">S
