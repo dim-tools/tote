@@ -39,6 +39,7 @@ const dropZone = document.getElementById("dropZone");
 const fileInput = document.getElementById("fileInput");
 const fileStatus = document.getElementById("fileStatus");
 const generateBtn = document.getElementById("generateBtn");
+const printBtn = document.getElementById("printBtn");
 
 let selectedFile = null;
 
@@ -149,6 +150,7 @@ generateBtn.addEventListener("click", () => {
     }
 
     resultsDiv.innerHTML = html;
+    printBtn.disabled = false;
 
   };
 
