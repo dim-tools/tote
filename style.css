@@ -145,5 +145,5 @@ button:disabled {
 .pick-table th:last-child,
 .pick-table td:last-child {
   text-align: right;
-  width: 80px;
+  width: 700px;
 }
