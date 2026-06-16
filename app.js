@@ -152,7 +152,13 @@ generateBtn.addEventListener("click", () => {
   return;
 }
 
-  const generatedAt = new Date().toLocaleString();
+  const generatedAt = new Date().toLocaleString([], {
+  year: "numeric",
+  month: "numeric",
+  day: "numeric",
+  hour: "numeric",
+  minute: "2-digit"
+});
 
 resultsDiv.innerHTML = `
   <div class="generated-time">
