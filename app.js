@@ -196,5 +196,34 @@ resultsDiv.innerHTML = `
 });
 
 printBtn.addEventListener("click", () => {
-  window.print();
+
+  const { jsPDF } = window.jspdf;
+
+  const doc = new jsPDF();
+
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(16);
+  doc.text("TOTE REPLENISHMENT PICK LIST", 20, 20);
+
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(12);
+
+  doc.text(
+    "Tech Name: ______________________________",
+    20,
+    35
+  );
+
+  const generatedAt = new Date().toLocaleString([], {
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit"
+  });
+
+  doc.text(`Generated: ${generatedAt}`, 20, 45);
+
+  doc.output("dataurlnewwindow");
+
 });
