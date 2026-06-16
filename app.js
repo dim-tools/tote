@@ -49,6 +49,8 @@ const generateBtn = document.getElementById("generateBtn");
 const printBtn = document.getElementById("printBtn");
 
 let selectedFile = null;
+let currentPickList = [];
+let currentTotalPieces = 0;
 
 function setLoadedFile(file) {
   selectedFile = file;
@@ -124,6 +126,8 @@ generateBtn.addEventListener("click", () => {
 
     let rows = "";
     let totalPieces = 0;
+    
+    currentPickList = [];
 
     Object.entries(TOTE_ITEMS).forEach(([partNumber, item]) => {
 
@@ -133,6 +137,11 @@ generateBtn.addEventListener("click", () => {
       if (neededQty > 0) {
 
        totalPieces += neededQty;
+        
+       currentPickList.push({
+        item: item.shorthand,
+        qty: neededQty
+    });
         
       rows += `
   <tr>
@@ -187,6 +196,8 @@ resultsDiv.innerHTML = `
     Total Pieces To Pick: ${totalPieces}
   </div>
 `;
+
+    currentTotalPieces = totalPieces;
     printBtn.disabled = false;
 
   };
@@ -224,6 +235,51 @@ printBtn.addEventListener("click", () => {
 
   doc.text(`Generated: ${generatedAt}`, 20, 45);
 
-  doc.output("dataurlnewwindow");
+ doc.text(`Generated: ${generatedAt}`, 20, 45);
+
+let y = 65;
+
+doc.setFont("helvetica", "bold");
+doc.text("Item", 20, y);
+doc.text("Qty", 150, y);
+doc.text("✓", 180, y);
+
+y += 5;
+
+doc.line(20, y, 190, y);
+
+y += 10;
+
+doc.setFont("helvetica", "normal");
+
+currentPickList.forEach((row) => {
+
+  doc.text(row.item, 20, y);
+
+  doc.setFont("helvetica", "bold");
+  doc.text(String(row.qty), 150, y);
+
+  doc.setFont("helvetica", "normal");
+  doc.rect(178, y - 4, 4, 4);
+
+  y += 8;
+
+  doc.line(20, y, 190, y);
+
+  y += 8;
+
+});
+
+doc.setFont("helvetica", "bold");
+
+doc.rect(120, y + 5, 60, 12);
+
+doc.text(
+  `Total Pieces: ${currentTotalPieces}`,
+  125,
+  y + 13
+);
+
+doc.output("dataurlnewwindow");
 
 });
