@@ -222,7 +222,7 @@ printBtn.addEventListener("click", () => {
   doc.text(
     "Tech Name: ______________________________",
     20,
-    35
+    45
   );
 
   const generatedAt = new Date().toLocaleString([], {
@@ -233,16 +233,14 @@ printBtn.addEventListener("click", () => {
     minute: "2-digit"
   });
 
-  doc.text(`Generated: ${generatedAt}`, 20, 45);
+  doc.text(`Generated: ${generatedAt}`, 20, 58);
 
- doc.text(`Generated: ${generatedAt}`, 20, 45);
-
-let y = 65;
+let y = 80;
 
 doc.setFont("helvetica", "bold");
 doc.text("Item", 20, y);
 doc.text("Qty", 150, y);
-doc.text("✓", 180, y);
+doc.text("Pulled", 170, y);
 
 y += 5;
 
