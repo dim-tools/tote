@@ -1,36 +1,43 @@
 const TOTE_ITEMS = {
   "213567": {
     description: "ADTRAN SDX611 ONT 1GE C-Chip",
+    shorthand: "ONT - 611",
     maxQty: 5
   },
 
   "214181": {
     description: "ADTRAN SDX601QV, GPON 2.5G/1P",
+    shorthand: "ONT - 601",
     maxQty: 5
   },
 
   "214152": {
     description: "ONT, ADTRAN, 632 V Indoor XGS 10G/2.5",
+    shorthand: "ONT - 632",
     maxQty: 12
   },
 
   "213484": {
     description: "ADTRAN 854-6 DHCP",
+    shorthand: "Modem - 854",
     maxQty: 10
   },
 
   "214595": {
     description: "ADTRAN, SMARTOS, SDG 8612, Gtwy",
+    shorthand: "Modem - 8612 SOS",
     maxQty: 2
   },
 
   "214278": {
     description: "ADTRAN, Plume, SDG 8612 Gateway",
+    shorthand: "Modem - 8612",
     maxQty: 10
   },
 
   "213264": {
     description: "Adtran 841-T6 WIFI 6 MESH EXT",
+    shorthand: "Extender - 841",
     maxQty: 11
   }
 };
@@ -127,13 +134,12 @@ generateBtn.addEventListener("click", () => {
 
        totalPieces += neededQty;
         
-       rows += `
-          <tr>
-          <td>${partNumber}</td>
-          <td>${item.description}</td>
-          <td>${neededQty}</td>
-        </tr>
-        `;
+      rows += `
+  <tr>
+    <td>${item.shorthand}</td>
+    <td>${neededQty}</td>
+  </tr>
+`;
       }
 
     });
@@ -167,11 +173,10 @@ resultsDiv.innerHTML = `
 
   <table class="pick-table">
     <thead>
-      <tr>
-        <th>Part Number</th>
-        <th>Description</th>
-        <th>Qty</th>
-      </tr>
+     <tr>
+  <th>Item</th>
+  <th>Qty</th>
+</tr>
     </thead>
     <tbody>
       ${rows}
