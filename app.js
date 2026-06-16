@@ -152,7 +152,13 @@ generateBtn.addEventListener("click", () => {
   return;
 }
 
-   resultsDiv.innerHTML = `
+  const generatedAt = new Date().toLocaleString();
+
+resultsDiv.innerHTML = `
+  <div class="generated-time">
+    Pick List Generated: ${generatedAt}
+  </div>
+
   <table class="pick-table">
     <thead>
       <tr>
