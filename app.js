@@ -35,6 +35,12 @@ const TOTE_ITEMS = {
     maxQty: 5
   },
 
+  "214802": {
+    description: "Zyxel EE6510-10 Wifi7",
+    shorthand: "Modem - Zyxel 5 gig",
+    maxQty: 5
+  },
+
   "213264": {
     description: "Adtran 841-T6 WIFI 6 MESH EXT",
     shorthand: "Extender - 841",
