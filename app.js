@@ -14,7 +14,7 @@ const TOTE_ITEMS = {
   "214152": {
     description: "ONT, ADTRAN, 632 V Indoor XGS 10G/2.5",
     shorthand: "ONT - 632",
-    maxQty: 12
+    maxQty: 10
   },
 
   "213484": {
