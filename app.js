@@ -1,43 +1,50 @@
 const TOTE_ITEMS = {
-  "213567": {
-    description: "ADTRAN SDX611 ONT 1GE C-Chip",
-    shorthand: "ONT - 611",
-    maxQty: 6
-  },
-
-  "214181": {
-    description: "ADTRAN SDX601QV, GPON 2.5G/1P",
-    shorthand: "ONT - 601",
-    maxQty: 2
-  },
-
   "214152": {
+    category: "ONT",
     description: "ONT, ADTRAN, 632 V Indoor XGS 10G/2.5",
-    shorthand: "ONT - 632",
+    shorthand: "632",
     maxQty: 10
   },
 
+  "214181": {
+    category: "ONT",
+    description: "ADTRAN SDX601QV, GPON 2.5G/1P",
+    shorthand: "601",
+    maxQty: 2
+  },
+
+  "213567": {
+    category: "ONT",
+    description: "ADTRAN SDX611 ONT 1GE C-Chip",
+    shorthand: "611",
+    maxQty: 6
+  },
+
   "213484": {
+    category: "Gateway",
     description: "ADTRAN 854-6 DHCP",
-    shorthand: "Modem - 854",
+    shorthand: "854",
     maxQty: 8
   },
 
   "214278": {
+    category: "Gateway",
     description: "ADTRAN, Plume, SDG 8612 Gateway",
-    shorthand: "Modem - 8612",
+    shorthand: "8612",
     maxQty: 8
   },
 
   "214802": {
+    category: "Gateway",
     description: "Zyxel EE6510-10 Wifi7",
-    shorthand: "Modem - Zyxel 5 gig",
+    shorthand: "Zyxel 6510",
     maxQty: 2
   },
 
   "213264": {
+    category: "Extender",
     description: "Adtran 841-T6 WIFI 6 MESH EXT",
-    shorthand: "Extender - 841",
+    shorthand: "841",
     maxQty: 6
   }
 };
