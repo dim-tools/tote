@@ -131,24 +131,35 @@ generateBtn.addEventListener("click", () => {
       }
     }
 
-    let rows = "";
-    let totalPieces = 0;
-    
-    currentPickList = [];
+  let rows = "";
+let totalPieces = 0;
 
-    Object.entries(TOTE_ITEMS).forEach(([partNumber, item]) => {
+currentPickList = [];
 
-      const currentQty = counts[partNumber] || 0;
-      const neededQty = item.maxQty - currentQty;
+Object.entries(TOTE_ITEMS).forEach(([partNumber, item]) => {
 
-      if (neededQty > 0) {
+  const currentQty = counts[partNumber] || 0;
+  const neededQty = Math.max(0, item.maxQty - currentQty);
 
-       totalPieces += neededQty;
-        
-       currentPickList.push({
-        item: item.shorthand,
-        qty: neededQty
-    });
+  totalPieces += neededQty;
+
+  currentPickList.push({
+    category: item.category,
+    item: item.shorthand,
+    current: currentQty,
+    pick: neededQty
+  });
+
+  rows += `
+    <tr>
+      <td>${item.category}</td>
+      <td>${item.shorthand}</td>
+      <td>${currentQty}</td>
+      <td>${neededQty}</td>
+    </tr>
+  `;
+
+});
         
       rows += `
   <tr>
