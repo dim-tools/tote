@@ -1,53 +1,62 @@
-const TOTE_ITEMS = {
-  "214152": {
+const TOTE_ITEMS = [
+
+{
+    partNumber: "214152",
     category: "ONT",
     description: "ONT, ADTRAN, 632 V Indoor XGS 10G/2.5",
     shorthand: "632",
     maxQty: 10
-  },
+},
 
-  "214181": {
+{
+    partNumber: "214181",
     category: "ONT",
     description: "ADTRAN SDX601QV, GPON 2.5G/1P",
     shorthand: "601",
     maxQty: 2
-  },
+},
 
-  "213567": {
+{
+    partNumber: "213567",
     category: "ONT",
     description: "ADTRAN SDX611 ONT 1GE C-Chip",
     shorthand: "611",
     maxQty: 6
-  },
+},
 
-  "213484": {
+{
+    partNumber: "213484",
     category: "Gateway",
     description: "ADTRAN 854-6 DHCP",
     shorthand: "854",
     maxQty: 8
-  },
+},
 
-  "214278": {
+{
+    partNumber: "214278",
     category: "Gateway",
     description: "ADTRAN, Plume, SDG 8612 Gateway",
     shorthand: "8612",
     maxQty: 8
-  },
+},
 
-  "214802": {
+{
+    partNumber: "214802",
     category: "Gateway",
     description: "Zyxel EE6510-10 Wifi7",
     shorthand: "Zyxel 6510",
     maxQty: 2
-  },
+},
 
-  "213264": {
+{
+    partNumber: "213264",
     category: "Extender",
     description: "Adtran 841-T6 WIFI 6 MESH EXT",
     shorthand: "841",
     maxQty: 6
-  }
-};
+}
+
+];
 
 const dropZone = document.getElementById("dropZone");
 const fileInput = document.getElementById("fileInput");
@@ -110,9 +119,9 @@ generateBtn.addEventListener("click", () => {
 
     const counts = {};
 
-    Object.keys(TOTE_ITEMS).forEach(part => {
-      counts[part] = 0;
-    });
+   TOTE_ITEMS.forEach(item => {
+    counts[item.partNumber] = 0;
+});
 
     for (let i = 1; i < lines.length; i++) {
 
@@ -136,7 +145,9 @@ generateBtn.addEventListener("click", () => {
     
     currentPickList = [];
 
-    Object.entries(TOTE_ITEMS).forEach(([partNumber, item]) => {
+    TOTE_ITEMS.forEach((item) => {
+
+    const partNumber = item.partNumber;
 
       const currentQty = counts[partNumber] || 0;
       const neededQty = item.maxQty - currentQty;
