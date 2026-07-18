@@ -152,6 +152,8 @@ generateBtn.addEventListener("click", () => {
     toAdd: neededQty
 });
 
+}
+
 rows += `
   <tr>
     <td>${item.shorthand}</td>
@@ -160,11 +162,10 @@ rows += `
     <td>${neededQty}</td>
   </tr>
 `;
-      }
 
     });
 
-   if (!rows) {
+  if (totalPieces === 0) {
 
   resultsDiv.innerHTML = `
     <div class="result-item">
