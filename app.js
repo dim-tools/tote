@@ -280,7 +280,7 @@ currentPickList.forEach((row) => {
   doc.text(row.item, 20, y);
 
   doc.setFont("helvetica", "bold");
-  doc.text(String(row.qty), 150, y);
+ doc.text(String(row.toAdd), 150, y);
 
   doc.setFont("helvetica", "normal");
   doc.rect(178, y - 4, 4, 4);
