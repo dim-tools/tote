@@ -145,14 +145,18 @@ generateBtn.addEventListener("click", () => {
 
        totalPieces += neededQty;
         
-       currentPickList.push({
-        item: item.shorthand,
-        qty: neededQty
-    });
-        
-      rows += `
+      currentPickList.push({
+    item: item.shorthand,
+    max: item.maxQty,
+    current: currentQty,
+    toAdd: neededQty
+});
+
+rows += `
   <tr>
     <td>${item.shorthand}</td>
+    <td>${item.maxQty}</td>
+    <td>${currentQty}</td>
     <td>${neededQty}</td>
   </tr>
 `;
@@ -191,7 +195,9 @@ resultsDiv.innerHTML = `
     <thead>
      <tr>
   <th>Item</th>
-  <th>Qty</th>
+<th>Max</th>
+<th>Current</th>
+<th>To Add</th>
 </tr>
     </thead>
     <tbody>
