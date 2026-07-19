@@ -241,10 +241,6 @@ printBtn.addEventListener("click", () => {
   doc.setFontSize(16);
   doc.text("TOTE REPLENISHMENT PICK LIST", 20, 20);
 
- doc.setFont("helvetica", "bold");
-doc.setFontSize(22);
-doc.text(row.item, 20, y);
-
   doc.text(
     "Tech Name: ______________________________",
     20,
