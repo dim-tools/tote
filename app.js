@@ -264,7 +264,7 @@ doc.setFont("helvetica", "normal");
 currentPickList.forEach((row) => {
 
   // Outer box
-  doc.rect(20, y - 10, 170, 22);
+  doc.rect(20, y - 7, 170, 16);
 
   // Item name
   doc.setFont("helvetica", "bold");
@@ -272,7 +272,7 @@ currentPickList.forEach((row) => {
   doc.text(row.item, 28, y + 4);
 
   // Quantity box
-  doc.rect(145, y - 6, 22, 14);
+  doc.rect(150, y - 5, 18, 10);
 
   doc.setFontSize(18);
   doc.text(String(row.toAdd), 153, y + 4);
@@ -280,10 +280,10 @@ currentPickList.forEach((row) => {
   // Checkbox
   doc.setFont("helvetica", "normal");
   doc.setFontSize(12);
-  doc.rect(176, y - 2, 5, 5);
+  doc.rect(172, y - 2, 4, 4);
 
   // Next row
-  y += 28;
+  y += 18;
 
 });
 
