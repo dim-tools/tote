@@ -150,7 +150,7 @@ generateBtn.addEventListener("click", () => {
     const partNumber = item.partNumber;
 
       const currentQty = counts[partNumber] || 0;
-      const neededQty = item.maxQty - currentQty;
+      const neededQty = Math.max(0, item.maxQty - currentQty);
 
       if (neededQty > 0) {
 
