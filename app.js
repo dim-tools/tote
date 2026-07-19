@@ -296,6 +296,7 @@ y += 12;
 });
 
 doc.setFont("helvetica", "bold");
+    doc.setFontSize(16);
 
 doc.rect(120, y + 5, 60, 12);
 
