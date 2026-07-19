@@ -259,20 +259,9 @@ printBtn.addEventListener("click", () => {
 
 let y = 80;
 
-doc.setFont("helvetica", "bold");
-doc.text("Item", 20, y);
-doc.text("Qty", 150, y);
-doc.text("Pulled", 170, y);
-
-y += 5;
-
-doc.line(20, y, 190, y);
-
-y += 10;
-
 doc.setFont("helvetica", "normal");
 
-currentPickList.forEach((row) => {
+currentPickList.forEach((row) => {S
 
   doc.setFont("helvetica", "bold");
 doc.setFontSize(22);
