@@ -274,12 +274,17 @@ doc.setFont("helvetica", "normal");
 
 currentPickList.forEach((row) => {
 
-  doc.text(row.item, 20, y);
-
   doc.setFont("helvetica", "bold");
- doc.text(String(row.toAdd), 150, y);
+doc.setFontSize(22);
+doc.text(row.item, 20, y);
 
-  doc.setFont("helvetica", "normal");
+doc.setFontSize(18);
+doc.text(String(row.toAdd), 150, y);
+
+doc.setFont("helvetica", "normal");
+doc.setFontSize(12);
+
+    
   doc.rect(178, y - 4, 4, 4);
 
   y += 12;
