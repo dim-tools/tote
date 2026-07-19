@@ -261,7 +261,7 @@ let y = 80;
 
 doc.setFont("helvetica", "normal");
 
-currentPickList.forEach((row) => {S
+currentPickList.forEach((row) => {
 
   doc.setFont("helvetica", "bold");
 doc.setFontSize(22);
