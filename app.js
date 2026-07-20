@@ -264,17 +264,17 @@ doc.setFont("helvetica", "normal");
 currentPickList.forEach((row) => {
 
   // Outer box
-  doc.rect(20, y - 7, 170, 16);
+  doc.rect(20, y - 5, 170, 12);
 
   // Item name
   doc.setFont("helvetica", "bold");
-  doc.setFontSize(22);
+  doc.setFontSize(14);
   doc.text(row.item, 28, y + 4);
 
   // Quantity box
   doc.rect(150, y - 5, 18, 10);
 
-  doc.setFontSize(18);
+  doc.setFontSize(12);
   doc.text(String(row.toAdd), 159, y + 2.5, {
   align: "center"
 });
@@ -285,7 +285,7 @@ currentPickList.forEach((row) => {
   doc.rect(172, y - 2, 4, 4);
 
   // Next row
-  y += 18;
+  y += 13;
 
 });
 
