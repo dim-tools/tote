@@ -277,9 +277,9 @@ currentPickList.forEach((row) => {
 
    doc.setFontSize(12);
   doc.text(String(row.toAdd), 145, y + 2);
-});
 
-  // Checkbox
+
+    // Checkbox
   doc.setFont("helvetica", "normal");
   doc.setFontSize(12);
   doc.rect(178, y - 3, 4, 4);
@@ -292,7 +292,7 @@ doc.setDrawColor(0);
 
   // Next row
   y += 10;
-
+    
 });
 
 doc.setFont("helvetica", "bold");
