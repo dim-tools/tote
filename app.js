@@ -282,9 +282,9 @@ currentPickList.forEach((row) => {
     // Checkbox
   doc.setFont("helvetica", "normal");
   doc.setFontSize(12);
-  doc.rect(178, y - 3, 4, 4);
+  doc.rect(178, y - 1.5, 4, 4);
 
-    doc.setDrawColor(200);
+    doc.setDrawColor(150);
 
 doc.line(20, y + 5, 190, y + 5);
 
@@ -298,11 +298,11 @@ doc.setDrawColor(0);
 doc.setFont("helvetica", "bold");
     doc.setFontSize(16);
 
-doc.rect(120, y + 5, 60, 12);
+doc.rect(135, y + 5, 50, 12);
 
 doc.text(
   `Total Pieces: ${currentTotalPieces}`,
-  125,
+  140,
   y + 13
 );
 
