@@ -277,7 +277,6 @@ currentPickList.forEach((row) => {
 
    doc.setFontSize(12);
   doc.text(String(row.toAdd), 145, y + 2);
-  align: "center"
 });
 
   // Checkbox
