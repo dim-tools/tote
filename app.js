@@ -256,6 +256,13 @@ printBtn.addEventListener("click", () => {
   });
 
   doc.text(`Generated: ${generatedAt}`, 20, 58);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(12);
+
+doc.text("Item", 28, 74);
+doc.text("Pick Quantity", 135, 74);
+doc.text("Pulled", 173, 74);
+doc.line(20, 77, 190, 77);
 
 let y = 80;
 
@@ -263,29 +270,29 @@ doc.setFont("helvetica", "normal");
 
 currentPickList.forEach((row) => {
 
-  // Outer box
-  doc.rect(20, y - 5, 170, 12);
-
-  // Item name
+   // Item name
   doc.setFont("helvetica", "bold");
   doc.setFontSize(14);
   doc.text(row.item, 28, y + 4);
 
-  // Quantity box
-  doc.rect(150, y - 5, 18, 10);
-
-  doc.setFontSize(12);
-  doc.text(String(row.toAdd), 159, y + 2.5, {
+   doc.setFontSize(12);
+  doc.text(String(row.toAdd), 145, y + 2);
   align: "center"
 });
 
   // Checkbox
   doc.setFont("helvetica", "normal");
   doc.setFontSize(12);
-  doc.rect(172, y - 2, 4, 4);
+  doc.rect(178, y - 3, 4, 4);
+
+    doc.setDrawColor(200);
+
+doc.line(20, y + 5, 190, y + 5);
+
+doc.setDrawColor(0);
 
   // Next row
-  y += 13;
+  y += 10;
 
 });
 
