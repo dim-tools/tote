@@ -113,9 +113,44 @@ const generateBtn = document.getElementById("generateBtn");
 const printBtn = document.getElementById("printBtn");
 const technicianNameInput = document.getElementById("technicianName");
 const resultsDiv = document.getElementById("results");
+const autoSummaryToggle = document.getElementById("autoSummaryToggle");
+const reportUpdatedStatus = document.getElementById("reportUpdatedStatus");
 
 let selectedFile = null;
 let summaryGenerated = false;
+let autoSummaryTimer = null;
+let generationToken = 0;
+let reportUpdatedFadeTimer = null;
+let reportUpdatedHideTimer = null;
+
+function cancelAutoSummary() {
+  clearTimeout(autoSummaryTimer);
+  autoSummaryTimer = null;
+}
+
+function clearReportUpdated() {
+  clearTimeout(reportUpdatedFadeTimer);
+  clearTimeout(reportUpdatedHideTimer);
+  reportUpdatedFadeTimer = null;
+  reportUpdatedHideTimer = null;
+  reportUpdatedStatus.hidden = true;
+  reportUpdatedStatus.classList.remove("is-fading");
+  reportUpdatedStatus.textContent = "";
+}
+
+function showReportUpdated() {
+  clearReportUpdated();
+  reportUpdatedStatus.textContent = "✓ REPORT UPDATED";
+  reportUpdatedStatus.hidden = false;
+  reportUpdatedFadeTimer = setTimeout(() => {
+    reportUpdatedStatus.classList.add("is-fading");
+    reportUpdatedHideTimer = setTimeout(clearReportUpdated, 1000);
+  }, 1250);
+}
+
+autoSummaryToggle.addEventListener("change", () => {
+  if (!autoSummaryToggle.checked) cancelAutoSummary();
+});
 
 function updatePrintButtonState() {
   printBtn.disabled = !summaryGenerated || !technicianNameInput.value.trim();
@@ -124,6 +159,9 @@ function updatePrintButtonState() {
 technicianNameInput.addEventListener("input", updatePrintButtonState);
 
 function setLoadedFile(file) {
+  cancelAutoSummary();
+  generationToken++;
+  clearReportUpdated();
   selectedFile = file;
 
   fileStatus.textContent = file.name;
@@ -141,6 +179,16 @@ function setLoadedFile(file) {
 
   generateBtn.disabled = false;
   updatePrintButtonState();
+
+  if (autoSummaryToggle.checked) {
+    const loadedToken = generationToken;
+    autoSummaryTimer = setTimeout(() => {
+      autoSummaryTimer = null;
+      if (autoSummaryToggle.checked && loadedToken === generationToken) {
+        generateSummary();
+      }
+    }, 250);
+  }
 }
 
 dropZone.addEventListener("click", () => {
@@ -169,13 +217,16 @@ dropZone.addEventListener("drop", (event) => {
   setLoadedFile(file);
 });
 
-generateBtn.addEventListener("click", () => {
+function generateSummary() {
 
   if (!selectedFile) return;
 
+  cancelAutoSummary();
+  const currentToken = ++generationToken;
   const reader = new FileReader();
 
   reader.onload = (e) => {
+    if (currentToken !== generationToken) return;
 
     const csvText = e.target.result;
 
@@ -423,11 +474,16 @@ resultsDiv.innerHTML = `
     document.body.appendChild(printReport);
     summaryGenerated = true;
     updatePrintButtonState();
+    showReportUpdated();
 
   };
 
   reader.readAsText(selectedFile);
 
+}
+
+generateBtn.addEventListener("click", () => {
+  generateSummary();
 });
 
 printBtn.addEventListener("click", () => {

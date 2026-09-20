@@ -28,6 +28,13 @@
   <div id="fileStatus">No file selected</div>
 </div>
 
+      <div class="summary-controls">
+        <label class="auto-summary-control">
+          <span class="auto-summary-label">Auto<br>Summary</span>
+          <input type="checkbox" id="autoSummaryToggle" role="switch" checked>
+          <span class="auto-summary-slider" aria-hidden="true"></span>
+        </label>
+
       <button id="generateBtn" disabled>
         Generate Summary
       </button>
@@ -35,12 +42,14 @@
       <button id="printBtn" disabled>
   Print Summary
 </button>
+      </div>
 
       <div class="technician-name-field">
         <label for="technicianName">Technician Name</label>
         <input type="text" id="technicianName" placeholder="Enter technician name">
       </div>
 
+        <div id="reportUpdatedStatus" class="report-updated-status" role="status" hidden></div>
         <div id="results" class="results"></div>
 
     </div>
