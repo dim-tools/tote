@@ -30,52 +30,52 @@ const TOTE_ITEMS = {
     shortName: "XGSPON-632"
   },
   "213484": {
-    category: "Gateway",
+    category: "≤ 1G GATEWAY & EXTENDER",
     longName: "Modem-854",
     shortName: "Gateway-854"
   },
   "213850": {
-    category: "Gateway",
+    category: "8612 SMARTOS",
     longName: "Modem-854 SOS",
     shortName: "Gateway-854 SOS"
   },
   "214278": {
-    category: "Gateway",
+    category: "≥ 2G GATEWAY & EXTENDER",
     longName: "Modem-8612",
     shortName: "Gateway-8612"
   },
   "214595": {
-    category: "Gateway",
+    category: "8612 SMARTOS",
     longName: "Modem-8612 SOS",
     shortName: "Gateway-8612 SOS"
   },
   "214570": {
-    category: "Gateway",
+    category: "≥ 2G GATEWAY & EXTENDER",
     longName: "Zyxel EX5512",
     shortName: "Gateway-Zyxel 5512"  
   },
   "214250": {
-    category: "Gateway",
+    category: "≥ 2G GATEWAY & EXTENDER",
     longName: "Zyxel EX5512",
     shortName: "Gateway-Zyxel 5512"  
   },
   "214802": {
-    category: "Gateway",
+    category: "≥ 2G GATEWAY & EXTENDER",
     longName: "Zyxel EE6510",
     shortName: "Gateway-Zyxel 6510"
     },
   "213264": {
-    category: "Extender",
+    category: "≤ 1G GATEWAY & EXTENDER",
     longName: "Extender-841",
     shortName: "Extender-841"
   },
   "213320": {
-    category: "Extender",
+    category: "≤ 1G GATEWAY & EXTENDER",
     longName: "Extender-AX Pod",
     shortName: "Extender-AX Pod"
   },
   "213865": {
-    category: "Extender",
+    category: "≤ 1G GATEWAY & EXTENDER",
     longName: "Extender-6E",
     shortName: "Extender-6E"
   }
@@ -84,8 +84,9 @@ const TOTE_ITEMS = {
 const CATEGORY_LIMITS = {
   "GPON ONT": 8,
   "XGSPON ONT": 10,
-  "Gateway": 18,
-  "Extender": 6
+  "≤ 1G GATEWAY & EXTENDER": 14,
+  "≥ 2G GATEWAY & EXTENDER": 14,
+  "8612 SMARTOS": 2
 };
 
 const TOTE_DISPLAY_ORDER = [
@@ -109,59 +110,55 @@ const TOTE_DISPLAY_ORDER = [
 const dropZone = document.getElementById("dropZone");
 const fileInput = document.getElementById("fileInput");
 const fileStatus = document.getElementById("fileStatus");
+const autoGenerateToggle = document.getElementById("autoGenerateToggle");
 const generateBtn = document.getElementById("generateBtn");
 const printBtn = document.getElementById("printBtn");
 const technicianNameInput = document.getElementById("technicianName");
 const resultsDiv = document.getElementById("results");
-const autoSummaryToggle = document.getElementById("autoSummaryToggle");
-const reportUpdatedStatus = document.getElementById("reportUpdatedStatus");
 
 let selectedFile = null;
 let summaryGenerated = false;
-let autoSummaryTimer = null;
-let generationToken = 0;
-let reportUpdatedFadeTimer = null;
-let reportUpdatedHideTimer = null;
-
-function cancelAutoSummary() {
-  clearTimeout(autoSummaryTimer);
-  autoSummaryTimer = null;
-}
-
-function clearReportUpdated() {
-  clearTimeout(reportUpdatedFadeTimer);
-  clearTimeout(reportUpdatedHideTimer);
-  reportUpdatedFadeTimer = null;
-  reportUpdatedHideTimer = null;
-  reportUpdatedStatus.hidden = true;
-  reportUpdatedStatus.classList.remove("is-fading");
-  reportUpdatedStatus.textContent = "";
-}
-
-function showReportUpdated() {
-  clearReportUpdated();
-  reportUpdatedStatus.textContent = "✓ REPORT UPDATED";
-  reportUpdatedStatus.hidden = false;
-  reportUpdatedFadeTimer = setTimeout(() => {
-    reportUpdatedStatus.classList.add("is-fading");
-    reportUpdatedHideTimer = setTimeout(clearReportUpdated, 1000);
-  }, 1250);
-}
-
-autoSummaryToggle.addEventListener("change", () => {
-  if (!autoSummaryToggle.checked) cancelAutoSummary();
-});
+let successBannerTimer = null;
+let successBannerFadeTimer = null;
+let autoGenerateTimer = null;
 
 function updatePrintButtonState() {
   printBtn.disabled = !summaryGenerated || !technicianNameInput.value.trim();
 }
 
+function showSuccessBanner() {
+  if (successBannerTimer) {
+    clearTimeout(successBannerTimer);
+  }
+
+  if (successBannerFadeTimer) {
+    clearTimeout(successBannerFadeTimer);
+  }
+
+  const existingBanner = resultsDiv.querySelector(".report-success-banner");
+
+  if (existingBanner) {
+    existingBanner.remove();
+  }
+
+  const banner = document.createElement("div");
+  banner.className = "report-success-banner";
+  banner.textContent = "✓ REPORT UPDATED";
+
+  resultsDiv.prepend(banner);
+
+  successBannerTimer = setTimeout(() => {
+    banner.classList.add("fading");
+
+    successBannerFadeTimer = setTimeout(() => {
+      banner.remove();
+    }, 1000);
+  }, 1200);
+}
+
 technicianNameInput.addEventListener("input", updatePrintButtonState);
 
 function setLoadedFile(file) {
-  cancelAutoSummary();
-  generationToken++;
-  clearReportUpdated();
   selectedFile = file;
 
   fileStatus.textContent = file.name;
@@ -179,16 +176,6 @@ function setLoadedFile(file) {
 
   generateBtn.disabled = false;
   updatePrintButtonState();
-
-  if (autoSummaryToggle.checked) {
-    const loadedToken = generationToken;
-    autoSummaryTimer = setTimeout(() => {
-      autoSummaryTimer = null;
-      if (autoSummaryToggle.checked && loadedToken === generationToken) {
-        generateSummary();
-      }
-    }, 250);
-  }
 }
 
 dropZone.addEventListener("click", () => {
@@ -201,6 +188,16 @@ fileInput.addEventListener("change", (event) => {
   if (!file) return;
 
   setLoadedFile(file);
+
+  if (autoGenerateToggle.checked) {
+    if (autoGenerateTimer) {
+      clearTimeout(autoGenerateTimer);
+    }
+
+    autoGenerateTimer = setTimeout(() => {
+      generateReport();
+    }, 250);
+  }
 });
 
 dropZone.addEventListener("dragover", (event) => {
@@ -215,18 +212,25 @@ dropZone.addEventListener("drop", (event) => {
   if (!file) return;
 
   setLoadedFile(file);
+
+  if (autoGenerateToggle.checked) {
+    if (autoGenerateTimer) {
+      clearTimeout(autoGenerateTimer);
+    }
+
+    autoGenerateTimer = setTimeout(() => {
+      generateReport();
+    }, 250);
+  }
 });
 
-function generateSummary() {
+function generateReport() {
 
   if (!selectedFile) return;
 
-  cancelAutoSummary();
-  const currentToken = ++generationToken;
   const reader = new FileReader();
 
   reader.onload = (e) => {
-    if (currentToken !== generationToken) return;
 
     const csvText = e.target.result;
 
@@ -273,7 +277,10 @@ function generateSummary() {
     .filter(([, item]) => item.category === category)
         .map(([partNumber, item]) => `
           <tr>
-            <td>${item.shortName}</td>
+            <td>
+              <span>${item.shortName}</span>
+              <span class="inventory-pid"> - ${partNumber}</span>
+            </td>
             <td>${counts[partNumber]}</td>
           </tr>
         `).join("");
@@ -474,7 +481,7 @@ resultsDiv.innerHTML = `
     document.body.appendChild(printReport);
     summaryGenerated = true;
     updatePrintButtonState();
-    showReportUpdated();
+    showSuccessBanner();
 
   };
 
@@ -483,7 +490,7 @@ resultsDiv.innerHTML = `
 }
 
 generateBtn.addEventListener("click", () => {
-  generateSummary();
+  generateReport();
 });
 
 printBtn.addEventListener("click", () => {

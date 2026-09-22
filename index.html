@@ -28,18 +28,23 @@
   <div id="fileStatus">No file selected</div>
 </div>
 
-      <div class="summary-controls">
-        <label class="auto-summary-control">
-          <span class="auto-summary-label">Auto<br>Summary</span>
-          <input type="checkbox" id="autoSummaryToggle" role="switch" checked>
-          <span class="auto-summary-slider" aria-hidden="true"></span>
+      <div class="action-row">
+        <label class="auto-generate-control" for="autoGenerateToggle">
+          <input type="checkbox" id="autoGenerateToggle" checked>
+          <span class="auto-generate-switch" aria-hidden="true">
+            <span class="auto-generate-knob"></span>
+          </span>
+          <span class="auto-generate-text">
+            <span>Auto</span>
+            <span>Summary</span>
+          </span>
         </label>
 
-      <button id="generateBtn" disabled>
-        Generate Summary
-      </button>
+        <button id="generateBtn" disabled>
+          Generate Summary
+        </button>
 
-      <button id="printBtn" disabled>
+        <button id="printBtn" disabled>
   Print Summary
 </button>
       </div>
@@ -49,21 +54,18 @@
         <input type="text" id="technicianName" placeholder="Enter technician name">
       </div>
 
-        <div id="reportUpdatedStatus" class="report-updated-status" role="status" hidden></div>
         <div id="results" class="results"></div>
 
     </div>
 
-   
+    <div class="footer">
+      Distribution In Motion &bull; TOTE Inventory Summary &bull; Version 3.0
+    </div>
 
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="app.js?v=2.2"></script>
-
-   <div class="footer">
-      Distribution In Motion &bull; TOTE Inventory Summary &bull; Version 2.2
-    </div>
   
 </body>
 </html>
