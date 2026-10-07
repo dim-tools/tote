@@ -82,7 +82,7 @@ const TOTE_ITEMS = {
 };
 
 const CATEGORY_LIMITS = {
-  "GPON ONT": 8,
+  "GPON ONT": 6,
   "XGSPON ONT": 12,
   "≤ 1G GATEWAY & EXTENDER": 14,
   "≥ 2G GATEWAY & EXTENDER": 14,
