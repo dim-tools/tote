@@ -29,6 +29,11 @@ const TOTE_ITEMS = {
     longName: "ONT-632",
     shortName: "XGSPON-632"
   },
+   "214152": {
+    category: "XGSPON ONT",
+    longName: "ONT-7513",
+    shortName: "XGSPON-7513"
+  },
   "213484": {
     category: "≤ 1G GATEWAY & EXTENDER",
     longName: "Modem-854",
@@ -95,6 +100,7 @@ const TOTE_DISPLAY_ORDER = [
   "214181", // 601
   "213155", // 622
   "214152", // 632
+  "214640", // 7513
   "213484", // 854
   "213850", // 854 SOS
   "214278", // 8612
@@ -462,7 +468,7 @@ resultsDiv.innerHTML = `
             <h2>Items to Pick</h2>
             <div class="print-pick-columns">
               <div>
-                ${["411", "611", "601", "622", "632", "841"].map((name) => `
+                ${["411", "611", "601", "7513", "632", "841"].map((name) => `
                   <div class="print-pick-item"><span>${name}</span><span></span></div>
                 `).join("")}
               </div>
