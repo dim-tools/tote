@@ -230,6 +230,49 @@ dropZone.addEventListener("drop", (event) => {
   }
 });
 
+function* readInventoryRecords(csvText) {
+  let recordStart = 0;
+  let column = 0;
+  let quality = "";
+  let quoted = false;
+  let atFieldStart = true;
+  let afterClosingQuote = false;
+  let malformed = false;
+
+  for (let i = 0; i <= csvText.length; i++) {
+    const character = csvText[i] ?? "\n";
+
+    if (character === '"' && (quoted || atFieldStart)) {
+      if (quoted && csvText[i + 1] === '"') {
+        if (column === 2) quality += '"';
+        i++;
+      } else {
+        quoted = !quoted;
+        atFieldStart = false;
+        afterClosingQuote = !quoted;
+      }
+    } else if (!quoted && character === ",") {
+      column++;
+      atFieldStart = true;
+      afterClosingQuote = false;
+    } else if (!quoted && character === "\n") {
+      // Preserve the header position and let the Quality filter skip malformed rows.
+      yield { line: csvText.slice(recordStart, i), quality: malformed ? "" : quality };
+      recordStart = i + 1;
+      column = 0;
+      quality = "";
+      atFieldStart = true;
+      afterClosingQuote = false;
+      malformed = false;
+    } else if (afterClosingQuote) {
+      if (character.trim()) malformed = true;
+    } else {
+      if (column === 2) quality += character;
+      if (character.trim()) atFieldStart = false;
+    }
+  }
+}
+
 function generateReport() {
 
   if (!selectedFile) return;
@@ -240,7 +283,8 @@ function generateReport() {
 
     const csvText = e.target.result;
 
-    const lines = csvText.split(/\r?\n/);
+    const records = readInventoryRecords(csvText);
+    records.next(); // Skip the header record.
 
     const counts = {};
 
@@ -248,11 +292,12 @@ function generateReport() {
     counts[partNumber] = 0;
 });
 
-    for (let i = 1; i < lines.length; i++) {
-
-      const line = lines[i];
+    for (const { line, quality } of records) {
 
       if (!line.trim()) continue;
+
+      const normalizedQuality = quality.trim().toUpperCase();
+      if (normalizedQuality !== "NEW" && normalizedQuality !== "USED") continue;
 
       const match = line.match(/(\d{6})-/);
 
