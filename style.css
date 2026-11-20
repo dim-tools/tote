@@ -290,9 +290,13 @@ button:disabled {
   width: var(--numeric-column-width);
 }
 
+.table-summary,
+.results-panel .additional-items-table {
+  margin-top: 10px;
+}
+
 .table-summary {
   display: grid;
-  margin-top: 10px;
   padding: 10px 12px;
   border-radius: 10px;
   background: rgba(0, 0, 0, 0.25);
@@ -356,6 +360,35 @@ button:disabled {
   padding-right: 6px;
   padding-left: 6px;
   text-align: center;
+}
+
+.pick-table.additional-items-table .additional-items-cell {
+  width: auto;
+  white-space: normal;
+  text-align: center;
+  font-size: inherit;
+  font-weight: normal;
+}
+
+.additional-items-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.pick-table.additional-items-table .additional-items-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #4ade80;
+}
+
+.pick-table.additional-items-table .additional-items-value.is-limited {
+  color: #fb923c;
+}
+
+.pick-table.additional-items-table .additional-items-value.is-zero {
+  color: #facc15;
 }
 
 .pick-table.current-inventory-table {
@@ -521,9 +554,13 @@ button:disabled {
     text-align: center;
   }
 
+  .print-total,
+  .print-category-table.additional-items-table {
+    margin-top: 6px;
+  }
+
   .print-total {
     display: grid;
-    margin-top: 6px;
     border: 1px solid #777;
     border-radius: 7px;
     font-weight: 700;
@@ -603,6 +640,15 @@ button:disabled {
 
   .print-category-table td:first-child {
     white-space: nowrap;
+  }
+
+  .print-category-table.additional-items-table .additional-items-cell {
+    width: auto;
+  }
+
+  .print-category-table.additional-items-table .additional-items-value {
+    font-size: 9.5pt;
+    font-weight: 700;
   }
 
   .print-section table.print-category-total {

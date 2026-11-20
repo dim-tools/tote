@@ -9,11 +9,6 @@ const TOTE_ITEMS = {
     longName: "ONT-611",
     shortName: "GPON-611"
   },
-   "213566": {
-    category: "GSPON ONT",
-    longName: "ONT-611",
-    shortName: "GSPON-611 Obsolete"
-  },
   "214181": {
     category: "GPON ONT",
     longName: "ONT-601",
@@ -231,8 +226,8 @@ dropZone.addEventListener("drop", (event) => {
 });
 
 function* readInventoryRecords(csvText) {
-  let recordStart = 0;
   let column = 0;
+  let part = "";
   let quality = "";
   let quoted = false;
   let atFieldStart = true;
@@ -244,6 +239,7 @@ function* readInventoryRecords(csvText) {
 
     if (character === '"' && (quoted || atFieldStart)) {
       if (quoted && csvText[i + 1] === '"') {
+        if (column === 1) part += '"';
         if (column === 2) quality += '"';
         i++;
       } else {
@@ -257,9 +253,9 @@ function* readInventoryRecords(csvText) {
       afterClosingQuote = false;
     } else if (!quoted && character === "\n") {
       // Preserve the header position and let the Quality filter skip malformed rows.
-      yield { line: csvText.slice(recordStart, i), quality: malformed ? "" : quality };
-      recordStart = i + 1;
+      yield { part, quality: malformed ? "" : quality };
       column = 0;
+      part = "";
       quality = "";
       atFieldStart = true;
       afterClosingQuote = false;
@@ -267,6 +263,7 @@ function* readInventoryRecords(csvText) {
     } else if (afterClosingQuote) {
       if (character.trim()) malformed = true;
     } else {
+      if (column === 1) part += character;
       if (column === 2) quality += character;
       if (character.trim()) atFieldStart = false;
     }
@@ -286,20 +283,18 @@ function generateReport() {
     const records = readInventoryRecords(csvText);
     records.next(); // Skip the header record.
 
-    const counts = {};
+    const displayedPartNumbers = TOTE_DISPLAY_ORDER.filter(partNumber => {
+      const item = TOTE_ITEMS[partNumber];
+      return item && Object.hasOwn(CATEGORY_LIMITS, item.category);
+    });
+    const counts = Object.fromEntries(displayedPartNumbers.map(partNumber => [partNumber, 0]));
 
-   Object.keys(TOTE_ITEMS).forEach(partNumber => {
-    counts[partNumber] = 0;
-});
-
-    for (const { line, quality } of records) {
-
-      if (!line.trim()) continue;
+    for (const { part, quality } of records) {
 
       const normalizedQuality = quality.trim().toUpperCase();
       if (normalizedQuality !== "NEW" && normalizedQuality !== "USED") continue;
 
-      const match = line.match(/(\d{6})-/);
+      const match = part.trim().match(/^(\d{6})-/);
 
       if (!match) continue;
 
@@ -316,14 +311,14 @@ function generateReport() {
       categoryTotals[category] = 0;
     });
 
-    Object.entries(TOTE_ITEMS).forEach(([partNumber, item]) => {
-      categoryTotals[item.category] += counts[partNumber];
+    Object.entries(counts).forEach(([partNumber, count]) => {
+      categoryTotals[TOTE_ITEMS[partNumber].category] += count;
     });
 
     const inventoryTotal = Object.values(counts).reduce((total, count) => total + count, 0);
 
     const inventoryRows = Object.keys(CATEGORY_LIMITS).map((category) => {
-  return TOTE_DISPLAY_ORDER
+  return displayedPartNumbers
     .map((partNumber) => [partNumber, TOTE_ITEMS[partNumber]])
     .filter(([, item]) => item.category === category)
         .map(([partNumber, item]) => `
@@ -369,6 +364,23 @@ function generateReport() {
     const categoryCurrentTotal = categorySummaries.reduce((total, summary) => total + summary.currentTotal, 0);
     const categoryOverTotal = categorySummaries.reduce((total, summary) => total + summary.over, 0);
     const categoryAddTotal = categorySummaries.reduce((total, summary) => total + summary.add, 0);
+    const maxAdditionalItems = Math.max(0, Math.min(48 - inventoryTotal, categoryAddTotal));
+    let additionalItemsColorClass = "";
+    if (maxAdditionalItems === 0) {
+      additionalItemsColorClass = " is-zero";
+    } else if (maxAdditionalItems < categoryAddTotal) {
+      additionalItemsColorClass = " is-limited";
+    }
+    const additionalItemsRow = `
+      <tr>
+        <td class="additional-items-cell">
+          <span class="additional-items-group">
+            <span>Max Additional Items Allowed</span>
+            <span class="additional-items-value${additionalItemsColorClass}">${maxAdditionalItems}</span>
+          </span>
+        </td>
+      </tr>
+    `;
 
   const generatedAt = new Date().toLocaleString([], {
   year: "numeric",
@@ -433,6 +445,9 @@ resultsDiv.innerHTML = `
         <span>${categoryOverTotal}</span>
         <span>${categoryAddTotal}</span>
       </div>
+      <table class="pick-table category-summary-table additional-items-table">
+        <tbody>${additionalItemsRow}</tbody>
+      </table>
     </div>
   </div>
 `;
@@ -506,6 +521,9 @@ resultsDiv.innerHTML = `
                   <td>${categoryAddTotal}</td>
                 </tr>
               </tbody>
+            </table>
+            <table class="print-category-table additional-items-table">
+              <tbody>${additionalItemsRow}</tbody>
             </table>
           </section>
 
